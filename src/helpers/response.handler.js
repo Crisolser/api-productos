@@ -11,9 +11,10 @@ const successHandler = async (req,res,{message,additionalData,statusCode=200}) =
   return;
 };
 
-const errorHandler = (req,res,{message = "Error interno",statusCode = 500,}) => {
+const errorHandler = (req,res,{message = "Error interno",additionalData,statusCode = 500,}) => {
   const response = {
-    message
+    message,
+    ...additionalData
   };
 
   res.status(statusCode).json(response);

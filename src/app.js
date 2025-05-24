@@ -1,8 +1,10 @@
 import express from "express";
 import morgan from "morgan";
-import Routes from "./all.routes.js";
-import { methods as Response } from "./helpers/response.handler.js";
 import cors from "cors";
+import Routes from "./all.routes.js";
+import syntaxError from "./helpers/error.sintaxys.js";
+import { methods as Response } from "./helpers/response.handler.js";
+
 const app = express();
 
 app.use(cors());
@@ -10,14 +12,7 @@ app.use(cors());
 //Middlewares
 app.use(express.json({ limit: "2mb" }));
 app.use(morgan("dev"));
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
-    let message = "JSON malformado. Por favor, verifica la estructura de tus datos."
-    Response.errorHandler(req,res,{statusCode: 400,message});
-    return;
-  }
-  next();
-});
+app.use(syntaxError);
 
 app.use(Routes);
 
