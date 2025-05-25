@@ -28,11 +28,11 @@ const getProducts = async (filters) => {
 
     const productsList = await ProductRepository.getProducts(filters)
     const productsCount = await ProductRepository.getProductsCount(filters)
-    const totalPages = Math.ceil(productsCount/limit)
+    const totalPages = Math.ceil(productsCount/filters.limit)
 
     const response = {
         total_pages:totalPages,
-        current_page:page,
+        current_page:Number(filters.page),
         count:productsCount,
         filters,
         products:productsList

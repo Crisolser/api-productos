@@ -50,11 +50,20 @@ const ProductFiltersParameters = (filters) => {
 const ProductFilters = (filters) => {
     let maxLimit = 100
 
-    let {limit,company_id,unit_id} = filters
+    let {limit,page,company_id,unit_id} = filters
+
+    const numberRegex = /^\d+$/
+    const isValidLimit = numberRegex.test(limit)
+    const isValidPage = numberRegex.test(page)
+    const isValidCompanyId = numberRegex.test(company_id)
+    const isValidUnitId = numberRegex.test(unit_id)
+
+    if(limit && !isValidLimit) throw error("El parámetro 'limit' no tiene el formato adecuado")
+    if(page &&!isValidPage) throw error("El parámetro 'page' no tiene el formato adecuado") 
+    if(company_id && !isValidCompanyId) throw error("El parámetro 'company_id' no tiene el formato adecuado") 
+    if(unit_id && !isValidUnitId) throw error("El parámetro 'unit_id' no tiene el formato adecuado")  
 
     if(limit>maxLimit) throw error(`No se pueden listar más de ${maxLimit} productos`)
-    if(company_id && isNaN(company_id)) throw error("El parámetro 'company_id' debe ser un número")
-    if(unit_id && isNaN(unit_id)) throw error("El parámetro 'unit_id' debe ser un número")
 }
 
 
