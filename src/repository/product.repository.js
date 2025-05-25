@@ -1,4 +1,4 @@
-import { where, Op } from "sequelize";
+import { Op } from "sequelize";
 import sequelize from "../database/sequelize.db.js"
 import ProductModel from "../models/product.model.js";
 
@@ -53,9 +53,38 @@ const getProductsCount = async (filters) => {
     return productsCount
 }
 
+const getProduct = async (productId) => {
+    let product = await Product.findByPk(productId)
+    if(product == null) return null
+    return product.get()
+}
+
+const updateProduct = async (productId,changes) => {
+    let product = await Product.update(changes,{
+        where:{
+            product_id:productId
+        }
+    })
+
+    return product
+}
+
+const deleteProduct = async (productId) => {
+    let product = await Product.destroy({
+        where:{
+            product_id:productId
+        }
+    })
+
+    return product
+}
+
 export const methods = {
     createProduct,
     findProductByBarecode,
     getProducts,
-    getProductsCount
+    getProductsCount,
+    getProduct,
+    updateProduct,
+    deleteProduct
 }

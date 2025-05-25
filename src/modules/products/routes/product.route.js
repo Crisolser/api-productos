@@ -6,6 +6,7 @@ const router = Router();
 router.get("/",Product.getProducts)
 router.get("/:id",Product.getProduct)
 router.post("/",Product.createProduct)
-router.put("/:id",(req,res) => {res.status(200).json({"message":"ruta put product/:id/"})})
+router.put("/:id",Product.updateProduct)
+router.delete("/:id",Product.deleteProduct)
 
 export default router;
