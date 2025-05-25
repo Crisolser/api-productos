@@ -10,7 +10,6 @@ describe("GET /product",() => {
         expect(res.body.message).toBe(message)
     }
 
-
     it("Petición exitosa",async () => {
         const res = await request(app).get("/product")
         expect(res.statusCode).toBe(200)
@@ -37,6 +36,7 @@ describe("GET /product",() => {
         })
         
     })
+    
     it("Limite de resultados excedido", async () => {
         const res = await request(app).get("/product?limit=120")
         expectError(res, "No se pueden listar más de 100 productos")
