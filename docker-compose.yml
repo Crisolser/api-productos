@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app-api-productos:
+    build: 
+      context: ./api        # Ruta al directorio que contiene el Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001"
+    environment:
+      - NODE_ENV=dev
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=admin
+      - DB_PASSWORD=bama12345
+      - DB_NAME=bama
+    depends_on:
+      - db
+    volumes:
+      - ./api:/usr/src/app  # Ruta ajustada para el volumen
+      - /usr/src/app/node_modules
+
+  db:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=bama12345
+      - POSTGRES_DB=bama
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
