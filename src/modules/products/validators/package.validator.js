@@ -29,7 +29,7 @@ const ProductBody = (product) => {
     if(keys.includes("company_id") && !company_id) throw error("El parámetro 'company_id' no puede ser nulo")
     if(keys.includes("price") && !price) throw error("El parámetro 'price' no puede ser nulo")
     if(keys.includes("barcode") && !barcode) throw error("El parámetro 'barcode' no puede ser nulo")
-    if(keys.includes("unit_id") && !barcode) throw error("El parámetro 'barcode' no puede ser nulo")
+    if(keys.includes("unit_id") && !unit_id) throw error("El parámetro 'unit_id' no puede ser nulo")
 
     if(name && typeof name !== "string") throw error("El parámetro 'name' debe ser un string")
     if(company_id && typeof company_id !== "number") throw error("El parámetro 'company_id' debe ser un número")

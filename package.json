@@ -5,7 +5,7 @@
   "description": "Gestión de ordenes y productos",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles",
     "dev": "nodemon src/index.js"
   },
   "author": "Cristian Olmedo Serrano",
