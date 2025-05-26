@@ -87,4 +87,18 @@ describe("GET /product/:id",() => {
         expect(res.body).toBeInstanceOf(Object)
         expect(res.body.message).toBe(`El parámetro 'price' debe ser un número`)
     })
+    it("Peticiión con parámetro 'barcode' nulo",async () => {
+        let inputWithEmpyBarcode  = {...baseInput,barcode:""}
+        const res = await request(app).post("/product").send(inputWithEmpyBarcode)
+        expect(res.statusCode).toBe(400)
+        expect(res.body).toBeInstanceOf(Object)
+        expect(res.body.message).toBe(`El parámetro 'barcode' no puede ser nulo`)
+    })
+    it("Peticiión con parámetro 'barcode' diferente a string",async () => {
+        let inputWithNumberBarcode  = {...baseInput,barcode:123}
+        const res = await request(app).post("/product").send(inputWithNumberBarcode)
+        expect(res.statusCode).toBe(400)
+        expect(res.body).toBeInstanceOf(Object)
+        expect(res.body.message).toBe(`El parámetro 'barcode' debe ser un string`)
+    })
 })
