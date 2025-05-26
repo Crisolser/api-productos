@@ -5,8 +5,6 @@ API REST para la gestión de productos y órdenes, desarrollada con Node.js y Ex
 ## 🚀 Características
 
 - CRUD completo de productos
-- Gestión de compañías
-- Gestión de órdenes
 - Validación de datos
 - Búsqueda por filtros
 - Paginación
@@ -15,15 +13,15 @@ API REST para la gestión de productos y órdenes, desarrollada con Node.js y Ex
 
 ## 📋 Prerrequisitos
 
-- Node.js (v14 o superior)
+- Node.js (v22.4.0 o superior)
 - PostgreSQL
-- npm o yarn
+- npm
 
 ## 🔧 Instalación
 
 1. Clonar el repositorio:
 ```bash
-git clone [url-del-repositorio]
+git clone git@github.com:Crisolser/api-productos.git
 cd api-productos
 ```
 
@@ -111,6 +109,7 @@ DELETE /product/:id
 
 ## 📁 Estructura del Proyecto
 
+```
 api-productos/
 ├── src/
 │   ├── config/                 # Configuraciones
@@ -186,6 +185,7 @@ api-productos/
 ├── package.json
 ├── README.md
 └── LICENSE
+```
 
 ## 🛠 Tecnologías Utilizadas
 
