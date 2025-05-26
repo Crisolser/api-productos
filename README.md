@@ -13,9 +13,9 @@ API REST para la gestión de productos y órdenes, desarrollada con Node.js y Ex
 
 ## 📋 Prerrequisitos
 
-- Node.js (v22.4.0 o superior)
-- PostgreSQL
-- npm
+- Docker
+- Docker Compose
+- Node.js (v22.16.0 o superior) - Solo para desarrollo local
 
 ## 🔧 Instalación
 
@@ -25,15 +25,10 @@ git clone git@github.com:Crisolser/api-productos.git
 cd api-productos
 ```
 
-2. Instalar dependencias:
-```bash
-npm install
-```
-
-3. Configurar variables de entorno:
+2. Configurar variables de entorno:
 Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
 ```env
-PORT=3000
+PORT=4001
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=tu_usuario
@@ -41,158 +36,82 @@ DB_PASSWORD=tu_contraseña
 DB_NAME=nombre_base_datos
 ```
 
-## 🚀 Uso
+## 🚀 Uso con Docker
 
-### Desarrollo
+### Levantar la aplicación completa (API + Base de datos)
 ```bash
-npm run dev
+docker-compose up --build
 ```
 
-### Producción
+### Detener la aplicación
 ```bash
-npm start
+docker-compose down
 ```
 
-### Testing
+### Ver logs
 ```bash
-npm test
+docker-compose logs -f
+```
+
+### Reiniciar servicios
+```bash
+docker-compose restart
 ```
 
 ## 📚 Documentación de la API
 
-### Productos
+La documentación completa de la API está disponible a través de Swagger UI:
 
-#### Obtener todos los productos
-```http
-GET /product
-```
-Query Parameters:
-- `limit`: Número de productos por página (default: 10)
-- `page`: Número de página (default: 1)
-- `name`: Filtrar por nombre
-- `barcode`: Filtrar por código de barras
-- `company_id`: Filtrar por compañía
-- `unit_id`: Filtrar por unidad
-
-#### Obtener un producto
-```http
-GET /product/:id
-```
-
-#### Crear producto
-```http
-POST /product
-```
-Body:
-```json
-{
-    "name": "string",
-    "description": "string",
-    "company_id": number,
-    "price": number,
-    "cost": number,
-    "unit_id": number,
-    "barcode": "string"
-}
-```
-
-#### Actualizar producto
-```http
-PUT /product/:id
-```
-Body: Mismos campos que en la creación
-
-#### Eliminar producto
-```http
-DELETE /product/:id
-```
+- URL: `http://localhost:4001/api-docs`
+- Incluye:
+  - Descripción de todos los endpoints
+  - Parámetros requeridos
+  - Formatos de respuesta
+  - Ejemplos de uso
+  - Interfaz interactiva para probar endpoints
 
 ## 📁 Estructura del Proyecto
 
 ```
 api-productos/
-├── src/
-│   ├── config/                 # Configuraciones
-│   │   ├── database.js        # Configuración de base de datos
-│   │   ├── express.js         # Configuración de Express
-│   │   └── environment.js     # Variables de entorno
-│   │
-│   ├── core/                  # Núcleo de la aplicación
-│   │   ├── app.js            # Aplicación Express
-│   │   └── server.js         # Servidor HTTP
-│   │
-│   ├── database/             # Base de datos
-│   │   ├── migrations/       # Migraciones
-│   │   ├── seeders/         # Datos iniciales
-│   │   └── models/          # Modelos Sequelize
-│   │       ├── index.js
-│   │       ├── product.model.js
-│   │       ├── company.model.js
-│   │       ├── order.model.js
-│   │       └── product-unit.model.js
-│   │
-│   ├── modules/              # Módulos de la aplicación
-│   │   ├── products/        # Módulo de productos
-│   │   │   ├── controllers/
-│   │   │   ├── services/
-│   │   │   ├── repositories/
-│   │   │   ├── validators/
-│   │   │   └── routes/
+├── api/                    # Carpeta de la aplicación
+│   ├── src/
+│   │   ├── config/        # Configuraciones
+│   │   ├── database/      # Configuración de base de datos
+│   │   ├── helpers/       # Utilidades y funciones auxiliares
+│   │   ├── jobs/         # Tareas programadas
+│   │   ├── models/       # Modelos de Sequelize
+│   │   ├── modules/      # Módulos de la aplicación
+│   │   │   └── products/        # Módulo de productos
+│   │   │       ├── controllers/ # Controladores de productos
+│   │   │       ├── services/    # Servicios de productos
+│   │   │       ├── repositories/# Repositorios de productos
+│   │   │       ├── validators/  # Validadores de productos
+│   │   │       └── routes/      # Rutas de productos
 │   │   │
-│   │   ├── companies/       # Módulo de compañías
-│   │   │   ├── controllers/
-│   │   │   ├── services/
-│   │   │   ├── repositories/
-│   │   │   ├── validators/
-│   │   │   └── routes/
-│   │   │
-│   │   └── orders/         # Módulo de órdenes
-│   │       ├── controllers/
-│   │       ├── services/
-│   │       ├── repositories/
-│   │       ├── validators/
-│   │       └── routes/
-│   │
-│   ├── shared/              # Código compartido
-│   │   ├── constants/      # Constantes
-│   │   ├── errors/        # Errores personalizados
-│   │   ├── interfaces/    # Interfaces/Types
-│   │   ├── middlewares/   # Middlewares
-│   │   └── utils/         # Utilidades
-│   │
-│   ├── jobs/              # Tareas programadas
-│   │   └── show-time.js
-│   │
-│   └── tests/             # Pruebas
-│       ├── unit/         # Pruebas unitarias
-│       ├── integration/  # Pruebas de integración
-│       └── e2e/         # Pruebas end-to-end
+│   │   ├── repository/   # Capa de acceso a datos
+│   │   ├── test/        # Pruebas unitarias
+│   │   ├── app.js       # Configuración de Express
+│   │   ├── index.js     # Punto de entrada
+│   │   ├── all.routes.js # Rutas principales
+│   │   └── syncDB.js    # Sincronización de base de datos
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── Dockerfile
+│   └── .dockerignore
 │
-├── docs/                  # Documentación
-│   ├── api/              # Documentación de API
-│   └── architecture/     # Documentación de arquitectura
-│
-├── scripts/              # Scripts útiles
-│   ├── setup.sh
-│   └── deploy.sh
-│
-├── .env                  # Variables de entorno
-├── .env.example         # Ejemplo de variables de entorno
-├── .gitignore
-├── .eslintrc.js        # Configuración de ESLint
-├── .prettierrc         # Configuración de Prettier
-├── jest.config.js      # Configuración de Jest
-├── package.json
-├── README.md
-└── LICENSE
+├── docker-compose.yml
+└── README.md
 ```
 
 ## 🛠 Tecnologías Utilizadas
 
-- Node.js
+- Node.js 22.16.0
 - Express
 - PostgreSQL
 - Sequelize
+- Docker
+- Swagger UI
 - Jest
 - Supertest
 - Morgan
